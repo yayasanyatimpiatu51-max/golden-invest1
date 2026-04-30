@@ -1,25 +1,32 @@
-<script>
-const { createClient } = supabase;
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
 
-const supabaseClient = createClient(
+<h2>Dashboard</h2>
+<p id="user"></p>
+
+<script>
+const supabase = window.supabase.createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
   "PASTE_FULL_ANON_KEY_KAMU"
 );
 
-async function load(){
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
 
-  const { data: { session } } = await supabaseClient.auth.getSession();
-
-  if(!session){
-    window.location.href = "login.html";
+  if (!session) {
+    window.location.href = "/login.html";
     return;
   }
 
-  let user = session.user;
-
   document.getElementById("user").innerText =
-    "Login: " + user.email;
-
-}
-load();
+    "Login: " + session.user.email;
+})();
 </script>
+
+</body>
+</html>
