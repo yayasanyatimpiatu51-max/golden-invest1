@@ -11,9 +11,11 @@
 <button onclick="login()">Login dengan GitHub</button>
 
 <script>
-const supabaseClient = supabase.createClient(
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "PASTE_FULL_ANON_KEY_KAMU"
 );
 
 async function login(){
