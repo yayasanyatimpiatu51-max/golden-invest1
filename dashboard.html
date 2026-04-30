@@ -21,22 +21,26 @@ const supabaseClient = createClient(
 
 async function load(){
 
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  // 🔥 ambil session dulu (bukan langsung user)
+  const { data: { session } } = await supabaseClient.auth.getSession();
 
-  if(!user){
+  if(!session){
     location.href="login.html";
     return;
   }
 
-  document.getElementById("user").innerText = "Login: " + user.email;
+  let user = session.user;
 
-  let { data, error } = await supabaseClient
+  document.getElementById("user").innerText =
+    "Login: " + user.email;
+
+  let { data } = await supabaseClient
     .from("users")
     .select("*")
     .eq("email", user.email)
     .single();
 
-  if(error || !data){
+  if(!data){
     await supabaseClient.from("users").insert([
       { email: user.email }
     ]);
