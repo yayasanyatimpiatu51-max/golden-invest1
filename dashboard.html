@@ -2,20 +2,21 @@
 <html>
 <head>
 <title>Dashboard</title>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
 <h2>Dashboard</h2>
 <p id="user"></p>
 
-<script>
-const supabase = window.supabase.createClient(
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
   "PASTE_FULL_ANON_KEY_KAMU"
 );
 
-(async () => {
+async function load() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
@@ -25,7 +26,9 @@ const supabase = window.supabase.createClient(
 
   document.getElementById("user").innerText =
     "Login: " + session.user.email;
-})();
+}
+
+load();
 </script>
 
 </body>
