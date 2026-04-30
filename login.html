@@ -18,9 +18,24 @@ const supabaseClient = createClient(
   "PASTE_FULL_ANON_KEY_KAMU"
 );
 
+// 🔥 cek kalau sudah login → langsung ke dashboard
+async function checkSession() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (session) {
+    window.location.href = "dashboard.html";
+  }
+}
+
+checkSession();
+
+// 🔥 login dengan redirect FIX
 async function login(){
   await supabaseClient.auth.signInWithOAuth({
-    provider: "github"
+    provider: "github",
+    options: {
+      redirectTo: "https://golden-invest1.vercel.app/dashboard.html"
+    }
   });
 }
 </script>
