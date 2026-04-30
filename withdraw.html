@@ -2,48 +2,36 @@
 <html>
 <head>
 <title>Withdraw</title>
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h2>Withdraw</h2>
 
-<input type="number" id="amount" placeholder="Jumlah">
+<input id="amount" placeholder="Jumlah">
+<button onclick="submitWithdraw()">Submit</button>
 
-<button onclick="withdraw()">Submit</button>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-<script>
-function withdraw(){
-  let a=parseFloat(document.getElementById("amount").value);
+const supabase = createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "PASTE_ANON_KEY_KAMU"
+);
 
-  if(!a || a<=0){alert("Masukkan jumlah");return;}
-  if(a<50000){alert("Min Rp50.000");return;}
-  if(a>1000000000){alert("Max Rp1.000.000.000");return;}
+window.submitWithdraw = async () => {
+  let amount = parseFloat(document.getElementById("amount").value);
 
-  let fee;
-  if(a<1000000){fee=2.5;}
-  else if(a<=50000000){fee=2;}
-  else{fee=1.5;}
+  const { data:{session} } = await supabase.auth.getSession();
 
-  let f=a*(fee/100);
-  let r=a-f;
+  await supabase.from("transactions").insert([{
+    email: session.user.email,
+    type: "withdraw",
+    amount: amount,
+    status: "pending"
+  }]);
 
-  let now=new Date();
-  let day=now.getDay();
-  let hour=now.getHours();
-
-  let msg="";
-  if(day===0){msg="Diproses Senin";}
-  else if(hour>=17){msg="Diproses besok";}
-  else{msg="Diproses hari ini";}
-
-  alert(
-    "Amount: "+a+
-    "\nFee: "+f+
-    "\nReceive: "+r+
-    "\n"+msg
-  );
-}
+  alert("Withdraw diajukan");
+};
 </script>
 
 </body>
