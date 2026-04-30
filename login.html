@@ -6,48 +6,44 @@
 </head>
 <body>
 
-<h2>Login</h2>
+<h2>Login / Register</h2>
 
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Password">
+<input id="email" placeholder="Masukkan email">
 
-<button onclick="login()">Login</button>
+<button onclick="login()">Masuk / Daftar</button>
 
-<script>
-function login(){
-  let email=document.getElementById("email").value;
-  let pass=document.getElementById("pass").value;
+<p>Jika belum punya akun, cukup masukkan email → otomatis dibuat</p>
 
-  // ADMIN
-  if(email==="admin@gmail.com" && pass==="admin123"){
-    localStorage.setItem("role","admin");
-    location.href="admin.html";
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
+
+window.login = async () => {
+  const email = document.getElementById("email").value;
+
+  if(!email){
+    alert("Masukkan email dulu");
     return;
   }
 
-  // USER
-  if(!email || !pass){
-    alert("Isi data");
-    return;
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: "https://golden-invest1.vercel.app/dashboard.html"
+    }
+  });
+
+  if(error){
+    alert(error.message);
+  } else {
+    alert("Cek email kamu untuk login");
   }
-
-  localStorage.setItem("user",email);
-  localStorage.setItem("role","user");
-
-  if(!localStorage.getItem(email+"_balance")){
-    localStorage.setItem(email+"_balance",10000);
-  }
-
-  location.href="dashboard.html";
-}
+};
 </script>
 
 </body>
-  <h2>Login / Register</h2>
-
-<input id="email" placeholder="Email">
-
-<button onclick="login()">Login / Register</button>
-
-<p>Belum punya akun? klik login saja</p>
 </html>
