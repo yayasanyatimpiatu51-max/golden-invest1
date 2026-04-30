@@ -106,7 +106,7 @@ localStorage.setItem("profit", totalProfit);
   document.getElementById("total").innerText = "$" + totalProfit.toFixed(2);
 }
 
-setInterval(updateProfit, 2000);
+setInterval(updateProfit, 10000);
 
 function goDeposit() {
   window.location.href = "deposit.html";
