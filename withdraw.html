@@ -1,108 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Withdraw - Golden Investment</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0b0b0f, #111);
-  color: #d4af37;
-  text-align: center;
-}
-
-.card {
-  display: inline-block;
-  padding: 30px;
-  margin-top: 80px;
-  background: #111;
-  border: 1px solid #d4af37;
-  border-radius: 12px;
-}
-
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  width: 220px;
-}
-
-button {
-  padding: 10px 20px;
-  background: gold;
-  border: none;
-  cursor: pointer;
-}
-</style>
+<title>Withdraw</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="card">
-  <h2>Withdraw</h2>
+<h2>Withdraw</h2>
 
-  <input type="number" id="amount" placeholder="Amount">
-  <input type="text" placeholder="Bank Name">
-  <input type="text" placeholder="Account Number">
+<input type="number" id="amount" placeholder="Jumlah">
 
-  <button onclick="withdraw()">Submit</button>
-</div>
+<button onclick="withdraw()">Submit</button>
 
 <script>
-function withdraw() {
-  let amount = parseFloat(document.getElementById("amount").value);
+function withdraw(){
+  let a=parseFloat(document.getElementById("amount").value);
 
-  if (!amount || amount <= 0) {
-    alert("Masukkan jumlah withdraw");
-    return;
-  }
+  if(!a || a<=0){alert("Masukkan jumlah");return;}
+  if(a<50000){alert("Min Rp50.000");return;}
+  if(a>1000000000){alert("Max Rp1.000.000.000");return;}
 
-  if (amount < 50000) {
-    alert("Minimum withdraw Rp50.000");
-    return;
-  }
+  let fee;
+  if(a<1000000){fee=2.5;}
+  else if(a<=50000000){fee=2;}
+  else{fee=1.5;}
 
-  if (amount > 1000000000) {
-    alert("Maximum withdraw Rp1.000.000.000");
-    return;
-  }
+  let f=a*(fee/100);
+  let r=a-f;
 
-  let feePercent;
+  let now=new Date();
+  let day=now.getDay();
+  let hour=now.getHours();
 
-  if (amount < 1000000) {
-    feePercent = 2.5;
-  } else if (amount <= 50000000) {
-    feePercent = 2;
-  } else {
-    feePercent = 1.5;
-  }
-
-  let fee = amount * (feePercent / 100);
-  let receive = amount - fee;
-
-  let now = new Date();
-  let day = now.getDay();
-  let hour = now.getHours();
-
-  let message = "";
-
-  if (day === 0) {
-    message = "Diproses hari Senin";
-  } else if (hour >= 17) {
-    message = "Diproses hari kerja berikutnya (cut-off 17:00)";
-  } else {
-    message = "Diproses hari ini";
-  }
+  let msg="";
+  if(day===0){msg="Diproses Senin";}
+  else if(hour>=17){msg="Diproses besok";}
+  else{msg="Diproses hari ini";}
 
   alert(
-    "Withdraw berhasil diajukan\n\n" +
-    "Amount: Rp" + amount.toLocaleString() + "\n" +
-    "Fee (" + feePercent + "%): Rp" + fee.toLocaleString() + "\n" +
-    "Diterima: Rp" + receive.toLocaleString() + "\n\n" +
-    message
+    "Amount: "+a+
+    "\nFee: "+f+
+    "\nReceive: "+r+
+    "\n"+msg
   );
 }
 </script>
