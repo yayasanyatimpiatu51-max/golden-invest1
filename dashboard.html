@@ -2,66 +2,55 @@
 <html>
 <head>
 <title>Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
-
 <body>
 
-<h2>Golden Investment Dashboard</h2>
+<h2>Dashboard</h2>
 
-<div class="card">
-  <h3>Balance</h3>
-  <h2 id="balance">$10000</h2>
-</div>
-
-<div class="card">
-  <h3>Profit</h3>
-  <h2 id="profit">0%</h2>
-</div>
-
-<div class="card">
-  <h3>Total Profit</h3>
-  <h2 id="total">$0</h2>
-</div>
-
-<br>
-
-<button onclick="goDeposit()">Deposit</button>
-<button onclick="goWithdraw()">Withdraw</button>
+<p id="user"></p>
+<h3 id="balance"></h3>
 
 <script>
-let balance = localStorage.getItem("balance")
-  ? parseFloat(localStorage.getItem("balance"))
-  : 10000;
+const supabaseClient = supabase.createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
 
-let total = localStorage.getItem("total")
-  ? parseFloat(localStorage.getItem("total"))
-  : 0;
+async function load(){
 
-function update(){
-  let change = (Math.random()*0.3 - 0.15);
-  let profit = balance*(change/100);
+  let { data: { user } } = await supabaseClient.auth.getUser();
 
-  balance += profit;
-  total += profit;
+  if(!user){
+    location.href="login.html";
+    return;
+  }
 
-  localStorage.setItem("balance", balance);
-  localStorage.setItem("total", total);
+  document.getElementById("user").innerText =
+    "Login: " + user.email;
 
-  document.getElementById("balance").innerText="$"+balance.toFixed(2);
-  document.getElementById("profit").innerText=change.toFixed(2)+"%";
-  document.getElementById("total").innerText="$"+total.toFixed(2);
+  // ambil data user
+  let { data } = await supabaseClient
+    .from("users")
+    .select("*")
+    .eq("email", user.email)
+    .single();
+
+  // kalau user belum ada → buat
+  if(!data){
+    await supabaseClient.from("users").insert([
+      { email: user.email, balance: 10000 }
+    ]);
+
+    data = { balance: 10000 };
+  }
+
+  document.getElementById("balance").innerText =
+    "Balance: $" + data.balance;
+
 }
 
-setInterval(update,5000);
-
-function goDeposit(){
-  window.location.href="deposit.html";
-}
-
-function goWithdraw(){
-  window.location.href="withdraw.html";
-}
+load();
 </script>
 
 </body>
