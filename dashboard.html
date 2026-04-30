@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-</head>
-<body>
-
-<h2>Dashboard</h2>
-
-<p id="user"></p>
-<h3 id="balance"></h3>
-
 <script>
 const { createClient } = supabase;
 
@@ -21,11 +8,10 @@ const supabaseClient = createClient(
 
 async function load(){
 
-  // 🔥 ambil session dulu (bukan langsung user)
   const { data: { session } } = await supabaseClient.auth.getSession();
 
   if(!session){
-    location.href="login.html";
+    window.location.href = "login.html";
     return;
   }
 
@@ -34,26 +20,6 @@ async function load(){
   document.getElementById("user").innerText =
     "Login: " + user.email;
 
-  let { data } = await supabaseClient
-    .from("users")
-    .select("*")
-    .eq("email", user.email)
-    .single();
-
-  if(!data){
-    await supabaseClient.from("users").insert([
-      { email: user.email }
-    ]);
-
-    data = { balance: 10000 };
-  }
-
-  document.getElementById("balance").innerText =
-    "Balance: $" + data.balance;
 }
-
 load();
 </script>
-
-</body>
-</html>
