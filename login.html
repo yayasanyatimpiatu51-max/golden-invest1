@@ -8,20 +8,27 @@
 
 <h2>Login</h2>
 
-<button onclick="login()">Login GitHub</button>
+<input id="email" placeholder="Masukkan email">
+<button onclick="login()">Login</button>
 
 <script>
 const supabase = window.supabase.createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_ANON_KEY"
+  "PASTE_FULL_ANON_KEY_KAMU"
 );
 
 async function login() {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "github"
+  const email = document.getElementById("email").value;
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email: email
   });
 
-  if (error) alert(error.message);
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("Cek email kamu untuk login");
+  }
 }
 </script>
 
