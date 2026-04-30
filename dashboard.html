@@ -81,7 +81,14 @@ button {
 <div class="button-area">
   <button onclick="goDeposit()">Deposit</button>
 </div>
+<br><br>
+<button onclick="goWithdraw()">Withdraw</button>
 
+<script>
+function goWithdraw() {
+  window.location.href = "withdraw.html";
+}
+</script>
 <script>
 let balance = 10000;
 let totalProfit = 0;
