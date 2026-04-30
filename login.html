@@ -2,20 +2,24 @@
 <html>
 <head>
 <title>Login</title>
-<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
 <h2>Login</h2>
 
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
+<button onclick="login()">Login dengan GitHub</button>
 
 <script>
-function login(){
-  window.location.href="dashboard.html";
+const supabaseClient = supabase.createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
+
+async function login(){
+  await supabaseClient.auth.signInWithOAuth({
+    provider: "github"
+  });
 }
 </script>
 
