@@ -21,9 +21,37 @@ const supabase = createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcWhla214a3J3YXRmaGVwaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NjQ1NDYsImV4cCI6MjA5MzE0MDU0Nn0.-QXKtJjVs36IyYCq0YiWfJuOw7WKS9iHkNG1Ewhwq-o"
 );
-
+//let cooldown = false;
 window.login = async () => {
+
+  if(cooldown){
+    alert("Tunggu 10 detik sebelum coba lagi");
+    return;
+  }
+
+  cooldown = true;
+  setTimeout(()=>cooldown=false,10000);
+
   const email = document.getElementById("email").value;
+
+  if(!email){
+    alert("Masukkan email dulu");
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: "https://golden-invest1.vercel.app/dashboard.html"
+    }
+  });
+
+  if(error){
+    alert(error.message);
+  } else {
+    alert("Cek email kamu");
+  }
+};
 
   if(!email){
     alert("Masukkan email dulu");
