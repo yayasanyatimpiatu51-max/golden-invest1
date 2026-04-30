@@ -1,69 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deposit - Golden Investment</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0b0b0f, #111);
-  color: #d4af37;
-  text-align: center;
-}
-
-.container {
-  padding-top: 80px;
-}
-
-.card {
-  display: inline-block;
-  padding: 30px;
-  background: #111;
-  border: 1px solid #d4af37;
-  border-radius: 12px;
-}
-
-input {
-  margin-top: 10px;
-  padding: 10px;
-  width: 220px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: gold;
-  border: none;
-  cursor: pointer;
-}
-</style>
+<title>Deposit</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
-  <div class="card">
-    <h2>Deposit via QRIS</h2>
+<h2>Deposit QRIS</h2>
 
-    <p>Scan QRIS and upload proof</p>
+<p>Scan QRIS lalu upload bukti</p>
 
-    <!-- nanti bisa diganti QRIS kamu -->
-    <img src="https://via.placeholder.com/200" alt="QRIS">
+<img src="https://via.placeholder.com/200">
 
-    <input type="file">
-    <br>
-    <button onclick="submitDeposit()">Submit</button>
-  </div>
-</div>
+<input type="file">
 
-<script>
-function submitDeposit() {
-  alert("Deposit submitted, waiting for approval");
-}
-</script>
+<button onclick="alert('Deposit dikirim, menunggu approval')">
+Submit
+</button>
 
 </body>
 </html>
