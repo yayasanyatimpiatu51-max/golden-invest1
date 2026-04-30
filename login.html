@@ -2,42 +2,34 @@
 <html>
 <head>
 <title>Login</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
 <h2>Login</h2>
 
-<button onclick="login()">Login dengan GitHub</button>
+<button id="loginBtn">Login dengan GitHub</button>
 
 <script>
-const { createClient } = supabase;
-
-const supabaseClient = createClient(
+const supabase = window.supabase.createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
   "PASTE_FULL_ANON_KEY_KAMU"
 );
 
-// 🔥 cek kalau sudah login → langsung ke dashboard
-async function checkSession() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-
-  if (session) {
-    window.location.href = "dashboard.html";
-  }
-}
-
-checkSession();
-
-// 🔥 login dengan redirect FIX
-async function login(){
-  await supabaseClient.auth.signInWithOAuth({
-    provider: "github",
-    options: {
-      redirectTo: "https://golden-invest1.vercel.app/dashboard.html"
-    }
+// klik login
+document.getElementById("loginBtn").onclick = async () => {
+  await supabase.auth.signInWithOAuth({
+    provider: "github"
   });
-}
+};
+
+// cek session saat load
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    window.location.href = "/dashboard.html";
+  }
+})();
 </script>
 
 </body>
