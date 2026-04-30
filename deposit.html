@@ -2,21 +2,37 @@
 <html>
 <head>
 <title>Deposit</title>
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Deposit QRIS</h2>
+<h2>Deposit</h2>
 
-<p>Scan QRIS lalu upload bukti</p>
+<input id="amount" placeholder="Jumlah">
+<button onclick="submitDeposit()">Submit</button>
 
-<img src="https://via.placeholder.com/200">
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-<input type="file">
+const supabase = createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "PASTE_ANON_KEY_KAMU"
+);
 
-<button onclick="alert('Deposit dikirim, menunggu approval')">
-Submit
-</button>
+window.submitDeposit = async () => {
+  let amount = parseFloat(document.getElementById("amount").value);
+
+  const { data:{session} } = await supabase.auth.getSession();
+
+  await supabase.from("transactions").insert([{
+    email: session.user.email,
+    type: "deposit",
+    amount: amount,
+    status: "pending"
+  }]);
+
+  alert("Deposit menunggu approval");
+};
+</script>
 
 </body>
 </html>
