@@ -12,34 +12,33 @@
 <h3 id="balance"></h3>
 
 <script>
-const supabaseClient = supabase.createClient(
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
   "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "PASTE_FULL_ANON_KEY_KAMU"
 );
 
 async function load(){
 
-  let { data: { user } } = await supabaseClient.auth.getUser();
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
   if(!user){
     location.href="login.html";
     return;
   }
 
-  document.getElementById("user").innerText =
-    "Login: " + user.email;
+  document.getElementById("user").innerText = "Login: " + user.email;
 
-  // ambil data user
-  let { data } = await supabaseClient
+  let { data, error } = await supabaseClient
     .from("users")
     .select("*")
     .eq("email", user.email)
     .single();
 
-  // kalau user belum ada → buat
-  if(!data){
+  if(error || !data){
     await supabaseClient.from("users").insert([
-      { email: user.email, balance: 10000 }
+      { email: user.email }
     ]);
 
     data = { balance: 10000 };
@@ -47,7 +46,6 @@ async function load(){
 
   document.getElementById("balance").innerText =
     "Balance: $" + data.balance;
-
 }
 
 load();
