@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Login</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -11,21 +11,26 @@
 <button id="loginBtn">Login dengan GitHub</button>
 
 <script>
-const supabase = window.supabase.createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_FULL_ANON_KEY_KAMU"
-);
+const supabaseUrl = "https://fqqhekmxkrwatfhephpr.supabase.co";
+const supabaseKey = "PASTE_FULL_ANON_KEY_KAMU";
 
-// klik login
-document.getElementById("loginBtn").onclick = async () => {
-  await supabase.auth.signInWithOAuth({
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+// klik tombol login
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github"
   });
-};
 
-// cek session saat load
+  if (error) {
+    alert("Error: " + error.message);
+  }
+});
+
+// cek session saat halaman dibuka
 (async () => {
   const { data: { session } } = await supabase.auth.getSession();
+
   if (session) {
     window.location.href = "/dashboard.html";
   }
