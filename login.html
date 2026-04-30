@@ -1,34 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<title>Test</title>
 </head>
 <body>
 
-<h2>Login</h2>
+<h2>TEST BUTTON</h2>
 
-<input id="email" placeholder="Masukkan email">
-<button onclick="login()">Login</button>
+<button onclick="test()">Klik Saya</button>
 
 <script>
-const supabase = window.supabase.createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_FULL_ANON_KEY_KAMU"
-);
-
-async function login() {
-  const email = document.getElementById("email").value;
-
-  const { error } = await supabase.auth.signInWithOtp({
-    email: email
-  });
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("Cek email kamu untuk login");
-  }
+function test(){
+  alert("Berhasil klik!");
 }
 </script>
 
