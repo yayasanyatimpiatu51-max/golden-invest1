@@ -85,8 +85,13 @@ button {
 </div>
 
 <script>
-let balance = 10000;
-let totalProfit = 0;
+let balance = localStorage.getItem("balance") 
+  ? parseFloat(localStorage.getItem("balance")) 
+  : 10000;
+
+let totalProfit = localStorage.getItem("profit") 
+  ? parseFloat(localStorage.getItem("profit")) 
+  : 0;
 
 function updateProfit() {
   let change = (Math.random() * 2 - 1); // -1% sampai +1%
@@ -94,7 +99,8 @@ function updateProfit() {
 
   totalProfit += profit;
   balance += profit;
-
+localStorage.setItem("balance", balance);
+localStorage.setItem("profit", totalProfit);
   document.getElementById("balance").innerText = "$" + balance.toFixed(2);
   document.getElementById("profit").innerText = change.toFixed(2) + "%";
   document.getElementById("total").innerText = "$" + totalProfit.toFixed(2);
