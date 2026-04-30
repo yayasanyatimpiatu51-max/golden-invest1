@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Admin Panel</h2>
+
+<button onclick="lihatUser()">Lihat User</button>
+<button onclick="logout()">Logout</button>
+
+<div id="list"></div>
+
+<script>
+function lihatUser(){
+  let output="";
+  for(let key in localStorage){
+    if(key.includes("_balance")){
+      output+=key+" = "+localStorage[key]+"<br>";
+    }
+  }
+  document.getElementById("list").innerHTML=output;
+}
+
+function logout(){
+  localStorage.clear();
+  location.href="login.html";
+}
+</script>
+
+</body>
+</html>
