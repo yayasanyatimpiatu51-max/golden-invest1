@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test</title>
+<title>Login</title>
 </head>
 <body>
 
-<h2>TEST BUTTON</h2>
+<h2>Login</h2>
 
-<button onclick="test()">Klik Saya</button>
+<button id="loginBtn">Login GitHub</button>
 
-<script>
-function test(){
-  alert("Berhasil klik!");
-}
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcWhla214a3J3YXRmaGVwaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NjQ1NDYsImV4cCI6MjA5MzE0MDU0Nn0.-QXKtJjVs36IyYCq0YiWfJuOw7WKS9iHkNG1Ewhwq-o"
+);
+
+document.getElementById("loginBtn").onclick = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "github"
+  });
+
+  if (error) alert(error.message);
+};
 </script>
 
 </body>
