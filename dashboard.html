@@ -2,30 +2,56 @@
 <html>
 <head>
 <title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Dashboard</h2>
+<h2>User Dashboard</h2>
+
 <p id="user"></p>
 
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<div class="card">
+  <h3>Balance</h3>
+  <h2 id="balance"></h2>
+</div>
 
-const supabase = createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_FULL_ANON_KEY_KAMU"
-);
+<button onclick="deposit()">Deposit</button>
+<button onclick="withdraw()">Withdraw</button>
+<button onclick="logout()">Logout</button>
 
-async function load() {
-  const { data: { session } } = await supabase.auth.getSession();
+<script>
+let user=localStorage.getItem("user");
 
-  if (!session) {
-    window.location.href = "/login.html";
-    return;
-  }
+if(!user){location.href="login.html";}
 
-  document.getElementById("user").innerText =
-    "Login: " + session.user.email;
+document.getElementById("user").innerText=user;
+
+function load(){
+  let b=localStorage.getItem(user+"_balance");
+  document.getElementById("balance").innerText="Rp "+Number(b).toLocaleString();
+}
+
+function deposit(){
+  let b=parseFloat(localStorage.getItem(user+"_balance"));
+  b+=500000;
+  localStorage.setItem(user+"_balance",b);
+  load();
+}
+
+function withdraw(){
+  let a=prompt("Jumlah withdraw");
+  let b=parseFloat(localStorage.getItem(user+"_balance"));
+
+  if(a>b){alert("Saldo kurang");return;}
+
+  b-=a;
+  localStorage.setItem(user+"_balance",b);
+  load();
+}
+
+function logout(){
+  localStorage.clear();
+  location.href="login.html";
 }
 
 load();
