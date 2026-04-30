@@ -2,29 +2,44 @@
 <html>
 <head>
 <title>Login</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h2>Login</h2>
 
-<button id="loginBtn">Login GitHub</button>
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
 
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<button onclick="login()">Login</button>
 
-const supabase = createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_FULL_ANON_KEY_KAMU"
-);
+<script>
+function login(){
+  let email=document.getElementById("email").value;
+  let pass=document.getElementById("pass").value;
 
-document.getElementById("loginBtn").onclick = async () => {
-  await supabase.auth.signInWithOAuth({
-    provider: "github",
-    options: {
-      redirectTo: "https://golden-invest1.vercel.app/dashboard.html"
-    }
-  });
-};
+  // ADMIN
+  if(email==="admin@gmail.com" && pass==="admin123"){
+    localStorage.setItem("role","admin");
+    location.href="admin.html";
+    return;
+  }
+
+  // USER
+  if(!email || !pass){
+    alert("Isi data");
+    return;
+  }
+
+  localStorage.setItem("user",email);
+  localStorage.setItem("role","user");
+
+  if(!localStorage.getItem(email+"_balance")){
+    localStorage.setItem(email+"_balance",10000);
+  }
+
+  location.href="dashboard.html";
+}
 </script>
 
 </body>
