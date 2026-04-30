@@ -1,73 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Golden Investment</title>
-
+<title>Login</title>
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0b0b0f, #111);
-  color: #d4af37;
-  text-align: center;
+  background:black;
+  color:gold;
+  text-align:center;
+  padding-top:100px;
+  font-family:Arial;
 }
-
-.container {
-  padding-top: 120px;
-}
-
-h2 {
-  font-size: 32px;
-}
-
 input {
-  display: block;
-  margin: 10px auto;
-  padding: 12px;
-  width: 220px;
-  border-radius: 6px;
-  border: none;
+  display:block;
+  margin:10px auto;
+  padding:10px;
 }
-
 button {
-  padding: 12px 25px;
-  background: #d4af37;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.card {
-  display: inline-block;
-  padding: 30px;
-  background: #111;
-  border: 1px solid #d4af37;
-  border-radius: 12px;
+  padding:10px 20px;
+  background:gold;
+  border:none;
 }
 </style>
-
 </head>
-
 <body>
 
-<div class="container">
-  <div class="card">
-    <h2>Login</h2>
+<h2>Login</h2>
 
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Password">
 
-    <button onclick="login()">Login</button>
-  </div>
-</div>
+<button onclick="login()">Login</button>
 
 <script>
-function login() {
-  window.location.href = "dashboard.html";
+function login(){
+  window.location.href="dashboard.html";
 }
 </script>
 
