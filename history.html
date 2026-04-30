@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>History</title>
+</head>
+<body>
+
+<h2>Transaction History</h2>
+<div id="list"></div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://fqqhekmxkrwatfhephpr.supabase.co",
+  "PASTE_ANON_KEY_KAMU"
+);
+
+async function load(){
+  const { data:{session} } = await supabase.auth.getSession();
+
+  let { data } = await supabase.from("transactions")
+    .select("*")
+    .eq("email", session.user.email)
+    .order("created_at", { ascending:false });
+
+  let html="";
+
+  data.forEach(tx=>{
+    html += `
+      ${tx.type} | ${tx.amount} | ${tx.status} <br>
+    `;
+  });
+
+  document.getElementById("list").innerHTML = html;
+}
+
+load();
+</script>
+
+</body>
+</html>
