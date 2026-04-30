@@ -48,6 +48,7 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin: 5px;
 }
 </style>
 
@@ -80,21 +81,15 @@ button {
 
 <div class="button-area">
   <button onclick="goDeposit()">Deposit</button>
+  <button onclick="goWithdraw()">Withdraw</button>
 </div>
-<br><br>
-<button onclick="goWithdraw()">Withdraw</button>
 
-<script>
-function goWithdraw() {
-  window.location.href = "withdraw.html";
-}
-</script>
 <script>
 let balance = 10000;
 let totalProfit = 0;
 
 function updateProfit() {
-  let change = (Math.random() * 2 - 1);
+  let change = (Math.random() * 2 - 1); // -1% sampai +1%
   let profit = balance * (change / 100);
 
   totalProfit += profit;
@@ -109,6 +104,10 @@ setInterval(updateProfit, 2000);
 
 function goDeposit() {
   window.location.href = "deposit.html";
+}
+
+function goWithdraw() {
+  window.location.href = "withdraw.html";
 }
 </script>
 
