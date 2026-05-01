@@ -5,7 +5,7 @@
 <h2>Withdraw</h2>
 
 <input id="amount">
-<button onclick="submit()">Submit</button>
+<button onclick="submit()">Kirim</button>
 
 <script type="module">
 import { supabase, getUser } from "./app.js";
@@ -20,7 +20,7 @@ window.submit = async ()=>{
     status:"pending"
   }]);
 
-  alert("Withdraw pending");
+  alert("Menunggu admin");
 };
 </script>
 
