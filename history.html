@@ -5,12 +5,21 @@
 <h2>History</h2>
 <div id="list"></div>
 
-<script type="module">
-import { supabase, getUser } from "./app.js";
+<script>
+const URL="https://fqqhekmxkrwatfhephpr.supabase.co";
+const KEY="PASTE_KEY_KAMU";
+
+let user=localStorage.getItem("user");
 
 async function load(){
-  let { data } = await supabase.from("transactions")
-    .select("*").eq("email",getUser());
+  let res = await fetch(URL+"/rest/v1/transactions?email=eq."+user,{
+    headers:{
+      apikey:KEY,
+      Authorization:"Bearer "+KEY
+    }
+  });
+
+  let data=await res.json();
 
   let html="";
   data.forEach(x=>{
@@ -19,6 +28,7 @@ async function load(){
 
   document.getElementById("list").innerHTML=html;
 }
+
 load();
 </script>
 
