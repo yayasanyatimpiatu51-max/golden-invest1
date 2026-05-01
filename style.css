@@ -1,5 +1,6 @@
 body{margin:0;font-family:Segoe UI;background:#0b0b0f;color:#fff;text-align:center}
-h1,h2{color:#d4af37}
+h1,h2,h3{color:#d4af37}
 .card{background:#151515;border-radius:12px;padding:20px;margin:15px auto;width:320px}
 button{padding:12px 20px;background:#d4af37;border:none;border-radius:8px;margin:10px;cursor:pointer}
-input{padding:10px;margin:10px;border-radius:6px;border:none}
+input{padding:10px;margin:10px;border-radius:6px;border:none;width:200px}
+img{border-radius:10px;margin:10px}
