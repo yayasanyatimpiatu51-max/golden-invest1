@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Deposit</title>
-</head>
 <body>
 
 <h2>Deposit</h2>
 
-<input id="amount" placeholder="Jumlah">
-<button onclick="submitDeposit()">Submit</button>
+<input id="amount">
+<button onclick="submit()">Submit</button>
 
 <script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { supabase, getUser } from "./app.js";
 
-const supabase = createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_ANON_KEY_KAMU"
-);
-
-window.submitDeposit = async () => {
-  let amount = parseFloat(document.getElementById("amount").value);
-
-  const { data:{session} } = await supabase.auth.getSession();
+window.submit = async ()=>{
+  let amount=parseFloat(document.getElementById("amount").value);
 
   await supabase.from("transactions").insert([{
-    email: session.user.email,
-    type: "deposit",
-    amount: amount,
-    status: "pending"
+    email:getUser(),
+    type:"deposit",
+    amount,
+    status:"pending"
   }]);
 
-  alert("Deposit menunggu approval");
+  alert("Deposit pending");
 };
 </script>
 
