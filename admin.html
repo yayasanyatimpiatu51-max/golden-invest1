@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Admin</title>
-<link rel="stylesheet" href="style.css">
-</head>
 <body>
 
-<h2>Admin Panel</h2>
-
-<button onclick="lihatUser()">Lihat User</button>
-<button onclick="logout()">Logout</button>
-
+<h2>Admin</h2>
 <div id="list"></div>
 
-<script>
-function lihatUser(){
-  let output="";
-  for(let key in localStorage){
-    if(key.includes("_balance")){
-      output+=key+" = "+localStorage[key]+"<br>";
-    }
-  }
-  document.getElementById("list").innerHTML=output;
+<script type="module">
+import { supabase } from "./app.js";
+
+async function load(){
+  let { data } = await supabase.from("transactions")
+    .select("*").eq("status","pending");
+
+  let html="";
+
+  data.forEach(tx=>{
+    html+=`
+    ${tx.email} | ${tx.type} | ${tx.amount}
+    <button onclick="approve('${tx.id}','${tx.email}','${tx.type}',${tx.amount})">OK</button><br>
+    `;
+  });
+
+  document.getElementById("list").innerHTML=html;
 }
 
-function logout(){
-  localStorage.clear();
-  location.href="login.html";
-}
+window.approve = async(id,email,type,amount)=>{
+  if(type==="deposit"){
+    await supabase.rpc("add_balance",{user_email:email,amount});
+  } else {
+    await supabase.rpc("minus_balance",{user_email:email,amount});
+  }
+
+  await supabase.from("transactions")
+    .update({status:"approved"}).eq("id",id);
+
+  load();
+};
+
+load();
 </script>
 
 </body>
