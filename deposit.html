@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
+<head><title>Deposit</title><link rel="stylesheet" href="style.css"></head>
 <body>
 
 <h2>Deposit</h2>
 
-<input id="amount">
-<button onclick="submit()">Submit</button>
+<div class="card">
+<p>Scan QR atau transfer:</p>
+
+<img src="https://via.placeholder.com/200">
+
+<p>BCA: 1234567890</p>
+<p>a.n Golden Investment</p>
+
+<input id="amount" placeholder="Jumlah">
+<button onclick="submit()">Konfirmasi</button>
+</div>
 
 <script type="module">
 import { supabase, getUser } from "./app.js";
@@ -20,7 +30,7 @@ window.submit = async ()=>{
     status:"pending"
   }]);
 
-  alert("Deposit pending");
+  alert("Menunggu admin");
 };
 </script>
 
