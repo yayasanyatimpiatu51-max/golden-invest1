@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head><title>Login</title></head>
+<head><title>Login</title><link rel="stylesheet" href="style.css"></head>
 <body>
 
-<h2>Masuk</h2>
+<h2>Login</h2>
 
-<input id="email" placeholder="Email">
+<input id="email" placeholder="Masukkan email">
 <button onclick="login()">Masuk</button>
 
 <script>
 function login(){
   let email=document.getElementById("email").value;
-  if(!email){alert("isi email");return;}
+  if(!email){alert("Isi email");return;}
   localStorage.setItem("user",email);
   location.href="dashboard.html";
 }
