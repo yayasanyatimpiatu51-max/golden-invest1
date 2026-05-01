@@ -13,12 +13,9 @@ async function load(){
     .select("*").eq("status","pending");
 
   let html="";
-
   data.forEach(tx=>{
-    html+=`
-    ${tx.email} | ${tx.type} | ${tx.amount}
-    <button onclick="approve('${tx.id}','${tx.email}','${tx.type}',${tx.amount})">OK</button><br>
-    `;
+    html+=`${tx.email} | ${tx.type} | ${tx.amount}
+    <button onclick="approve('${tx.id}','${tx.email}','${tx.type}',${tx.amount})">OK</button><br>`;
   });
 
   document.getElementById("list").innerHTML=html;
@@ -27,7 +24,7 @@ async function load(){
 window.approve = async(id,email,type,amount)=>{
   if(type==="deposit"){
     await supabase.rpc("add_balance",{user_email:email,amount});
-  } else {
+  }else{
     await supabase.rpc("minus_balance",{user_email:email,amount});
   }
 
