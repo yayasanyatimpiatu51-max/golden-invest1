@@ -1,62 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Login</title>
-<link rel="stylesheet" href="style.css">
-</head>
+<head><title>Login</title></head>
 <body>
 
-<h2>Login / Register</h2>
+<h2>Masuk</h2>
 
-<input id="email" placeholder="Masukkan email">
+<input id="email" placeholder="Email">
+<button onclick="login()">Masuk</button>
 
-<button id="loginBtn">Masuk / Daftar</button>
-
-<p>Jika belum punya akun, cukup masukkan email</p>
-
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const supabase = createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcWhla214a3J3YXRmaGVwaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NjQ1NDYsImV4cCI6MjA5MzE0MDU0Nn0.-QXKtJjVs36IyYCq0YiWfJuOw7WKS9iHkNG1Ewhwq-o"
-);
-
-// cooldown biar tidak spam
-let cooldown = false;
-
-// 🔥 pakai event listener (lebih aman)
-document.getElementById("loginBtn").addEventListener("click", async () => {
-
-  if(cooldown){
-    alert("Tunggu 10 detik sebelum coba lagi");
-    return;
-  }
-
-  cooldown = true;
-  setTimeout(()=>cooldown=false,10000);
-
-  const email = document.getElementById("email").value;
-
-  if(!email){
-    alert("Masukkan email dulu");
-    return;
-  }
-
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: "https://golden-invest1.vercel.app/dashboard.html"
-    }
-  });
-
-  if(error){
-    alert(error.message);
-  } else {
-    alert("Cek email kamu untuk login");
-  }
-
-});
+<script>
+function login(){
+  let email=document.getElementById("email").value;
+  if(!email){alert("isi email");return;}
+  localStorage.setItem("user",email);
+  location.href="dashboard.html";
+}
 </script>
 
 </body>
