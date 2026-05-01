@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Withdraw</title>
-</head>
 <body>
 
 <h2>Withdraw</h2>
 
-<input id="amount" placeholder="Jumlah">
-<button onclick="submitWithdraw()">Submit</button>
+<input id="amount">
+<button onclick="submit()">Submit</button>
 
 <script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { supabase, getUser } from "./app.js";
 
-const supabase = createClient(
-  "https://fqqhekmxkrwatfhephpr.supabase.co",
-  "PASTE_ANON_KEY_KAMU"
-);
-
-window.submitWithdraw = async () => {
-  let amount = parseFloat(document.getElementById("amount").value);
-
-  const { data:{session} } = await supabase.auth.getSession();
+window.submit = async ()=>{
+  let amount=parseFloat(document.getElementById("amount").value);
 
   await supabase.from("transactions").insert([{
-    email: session.user.email,
-    type: "withdraw",
-    amount: amount,
-    status: "pending"
+    email:getUser(),
+    type:"withdraw",
+    amount,
+    status:"pending"
   }]);
 
-  alert("Withdraw diajukan");
+  alert("Withdraw pending");
 };
 </script>
 
