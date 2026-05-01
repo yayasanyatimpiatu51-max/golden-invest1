@@ -7,21 +7,32 @@
 <input id="amount">
 <button onclick="submit()">Kirim</button>
 
-<script type="module">
-import { supabase, getUser } from "./app.js";
+<script>
+const URL="https://fqqhekmxkrwatfhephpr.supabase.co";
+const KEY="PASTE_KEY_KAMU";
 
-window.submit = async ()=>{
-  let amount=parseFloat(document.getElementById("amount").value);
+let user=localStorage.getItem("user");
 
-  await supabase.from("transactions").insert([{
-    email:getUser(),
-    type:"withdraw",
-    amount,
-    status:"pending"
-  }]);
+async function submit(){
+  let amount=document.getElementById("amount").value;
 
-  alert("Menunggu admin");
-};
+  await fetch(URL+"/rest/v1/transactions",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      apikey:KEY,
+      Authorization:"Bearer "+KEY
+    },
+    body:JSON.stringify({
+      email:user,
+      type:"withdraw",
+      amount:amount,
+      status:"pending"
+    })
+  });
+
+  alert("Withdraw dikirim");
+}
 </script>
 
 </body>
